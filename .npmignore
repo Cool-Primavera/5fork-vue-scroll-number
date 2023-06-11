@@ -1,0 +1,12 @@
+src/
+example/
+node_modules/
+tests/
+.nyc_output/
+coverage/
+.vscode/
+.github/
+webpack.config.js
+babel.config.js
+.travis.yml
+.browserslistrc
