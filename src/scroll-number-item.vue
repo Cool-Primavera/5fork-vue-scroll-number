@@ -3,11 +3,13 @@
     class="scroll-number-item"
     :style="{ width: itemWidth + 'px', height: itemHeight + 'px' }"
   >
+    <!-- list -->
     <div
       class="scroll-list"
       ref="list"
       :style="{ ...listStyle, ...overrideStyle }"
     >
+      <!-- == [backward] -->
       <ul class="number-list padding-number-list">
         <li
           v-for="(num, index) in backwardPaddingNumbers"
@@ -21,6 +23,7 @@
         </li>
       </ul>
 
+      <!-- realList -->
       <ul class="number-list" ref="realList">
         <li v-for="(num, index) in numbers" :key="'real-' + index">
           <div class="number-item" :style="itemStyle">
@@ -29,6 +32,7 @@
         </li>
       </ul>
 
+      <!-- == [forward] -->
       <ul class="number-list padding-number-list">
         <li
           v-for="(num, index) in forwardPaddingNumbers"
@@ -74,11 +78,11 @@ export default {
       type: Number,
       default: () => getOptions().transitionTime,
     },
-    itemStyle: Object,
+    itemStyle: Object, // 用户传入的 itemStyle
   },
   data() {
     return {
-      numbers: [...new Array(10).keys()],
+      numbers: [...new Array(10).keys()], // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       forwardPaddingNumbers: [],
       backwardPaddingNumbers: [],
       itemSize: {},
@@ -129,12 +133,17 @@ export default {
     forwardTo(newValue) {
       const p = () =>
         new Promise((resolve) => {
-          const oldValue = this.value;
+          const oldValue = this.value; // default value = 0
+
           const finish = () => {
             this.nextTransition(() => {
               resolve(newValue);
             });
           };
+
+          // 因为 newValue已经是过滤 可能有字符串情况 后的值了
+          // 所以 newValue一定是number
+          // 注意 newValue 的范围是 0-9
           let diff = newValue - oldValue;
 
           // 判断是否需要填充

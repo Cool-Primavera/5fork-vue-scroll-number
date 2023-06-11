@@ -1,6 +1,7 @@
 <template>
   <div class="scroll-number">
     <template v-for="(val, index) in numbers">
+      <!-- 1.分隔符 -->
       <div
         class="digit"
         :style="itemStyle"
@@ -10,6 +11,7 @@
         <span>{{ val }}</span>
       </div>
 
+      <!-- 2.数字 -->
       <ScrollNumberItem
         :key="getIndex(numbers, index)"
         v-else
@@ -56,7 +58,7 @@ export default {
     },
     transitionTime: {
       type: Number,
-      default: () => getOptions().transitionTime,
+      default: () => getOptions().transitionTime, // default value 800
     },
     itemStyle: Object,
   },
@@ -70,8 +72,10 @@ export default {
     };
   },
   computed: {
+    // 将 目标数字 转成 数组
+    // - 注意: 当 innerValue 是 string 时，有分隔符的情况
     numbers() {
-      return this.getNumbers(this.innerValue); // 将 目标数字 转成 数组
+      return this.getNumbers(this.innerValue);
     },
   },
   watch: {
@@ -109,7 +113,7 @@ export default {
           this.innerValue = value;
           setTimeout(() => {
             const promises = this.getNumbers(value)
-              .filter(isNumber)
+              .filter(isNumber) // 当value是string，可能有分隔符，过滤掉分隔符
               .map((item, index) => {
                 const scrollItem = this.$refs.scrollItem[index];
                 if (scrollItem) {
@@ -130,6 +134,7 @@ export default {
     },
 
     getNumbers(value) {
+      // const isNumber = (val) => !Number.isNaN(+val);
       return String(value)
         .split("")
         .map((it) => (isNumber(it) ? Number(it) : it));
@@ -141,10 +146,10 @@ export default {
       let nonNumCount = 0;
       for (let i = 0; i < index; i++) {
         if (!isNumber(numbers[i])) {
-          nonNumCount++;
+          nonNumCount++; // 符号的个数
         }
       }
-      return index - nonNumCount;
+      return index - nonNumCount; // 得到出去符号后的 index
     },
   },
 };

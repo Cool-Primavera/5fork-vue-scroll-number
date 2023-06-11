@@ -1,16 +1,17 @@
-@import './variables';
+@import "./variables";
 
 .scroll-number {
-    display: inline-block;
-    font-size: 0;
-    .digit {
-        display: inline-block;
-        vertical-align: text-bottom;
-        font-size: $font-size;
-        text-align: center;
-    }
+	display: inline-block;
+	font-size: 0;
+	.digit {
+		display: inline-block;
+		vertical-align: text-bottom; // 保证 分隔符 在最底部
+		font-size: $font-size; // $font-size: 14px !default;
+		text-align: center;
+	}
 }
 
+// 列
 .scroll-number-item {
 	display: inline-block;
 	position: relative;
